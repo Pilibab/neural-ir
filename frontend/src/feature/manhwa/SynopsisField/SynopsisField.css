@@ -1,16 +1,23 @@
 .synopsis-textfield {
     width: 100%;
-    /* maybe border only the top and bottom? */
     border: 1px solid gray;
     margin: 10px 0px;
     height: 30%;
-    padding: 10px
+    padding: 10px;
+
+    overflow-y: auto;      /* enables vertical scrollbar */
+    overflow-x: hidden;   /* prevents horizontal scrolling */
+    box-sizing: border-box;
 }
 
 .manhwa-title {
-    /* some styles to manhwa title */
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 
 .manhwa-synopsis {
-    
+    margin: 0;
+    line-height: 1.4;
+    white-space: normal;      /* ensure normal text wrapping */
+    word-break: break-word;   /* prevents long words from overflowing */
 }

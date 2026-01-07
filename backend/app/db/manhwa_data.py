@@ -1,4 +1,4 @@
-def manhwa_schema_validation(
+def manhwa_schema_data(
     rank: int,
     title: str,
     synopsis: str,

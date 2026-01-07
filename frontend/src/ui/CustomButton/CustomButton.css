@@ -1,15 +1,20 @@
 button.btn-primary {
-    width: 90%;
+    flex: 1;
     margin: 5px 0px;
-    background-color:rgb(31, 107, 230);
+    background-color: #1976d2;
     border: none;
-    color: aliceblue;
-    height: 1.5rem;
+    color: white;
+    height: 2rem;
     border-radius: 5px;
-
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-button.btn-primary:hover{
-    background-color:rgb(31, 194, 230);
+button.btn-primary:hover {
+    background-color: #1565c0;
+}
 
+button.btn-primary:disabled {
+    background-color: #555;
+    cursor: not-allowed;
 }

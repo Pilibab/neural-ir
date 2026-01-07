@@ -7,13 +7,18 @@
 .result-card {
     display: flex;
     gap: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid #555;
     padding: 1rem;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .result-cover {
     width: 120px;
     object-fit: cover;
+    border-radius: 4px;
 }
 
 .result-content {
@@ -22,19 +27,26 @@
 
 .result-title {
     margin: 0;
+    color: #4fc3f7;
 }
 
 .result-rating {
     font-weight: bold;
+    color: #ffb74d;
 }
-
 
 .result-tags {
     font-size: 0.9rem;
-    color: #555;
+    color: #bbb;
 }
 
 .result-link {
     display: inline-block;
     margin-top: 0.5rem;
+    color: #4fc3f7;
+    text-decoration: none;
+}
+
+.result-link:hover {
+    text-decoration: underline;
 }

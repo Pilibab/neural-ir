@@ -5,6 +5,12 @@
     padding: 0;
 }
 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
 .App {
     height: 100dvh; /* Use dynamic vh for mobile browsers */
     width: 100vw;
@@ -14,26 +20,13 @@
     overflow: hidden;
     padding: 20px; /* This is your outer "safe area" */
     gap: 10px;    /* Adds space between your two panels without breaking height */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
 }
 
-.Container {
-    width: 100%;
-    max-width: 480px;
-    /* Use 100% height so it fills the padded .App area exactly */
-    height: 80%; 
-    
-    border: 1px solid gray;
-    padding: 10px;
-    /* background-color: #1a1a1a; Optional: makes it visible against dark root */
-    border-radius: 8px;       /* Optional: makes it look more like a phone */
-    
-    /* Ensure internal content doesn't spill out */
-    overflow-y: auto; 
-    position: relative;
-}
 
 .button-container {
     width: 100%;
     display: flex;
     align-items: stretch;
+    gap: 10px;
 }

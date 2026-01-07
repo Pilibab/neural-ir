@@ -40,7 +40,8 @@ function App() {
         <QueryPanel/>
             <SynopsisField
             >
-              {results[currIdx].synopsis}
+              {/* hell */}
+              {results.length > 0 && results[currIdx] ? results[currIdx].synopsis : 'Loading synopsis...'}
             </SynopsisField>      </ContainerPanel>
       <ContainerPanel>
         <ResultsPanel currIdx={currIdx} results={results}/>

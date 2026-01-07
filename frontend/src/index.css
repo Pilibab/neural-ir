@@ -20,7 +20,7 @@
     width: 100%;
     max-width: 480px;
     /* Use 100% height so it fills the padded .App area exactly */
-    height: 100%; 
+    height: 80%; 
     
     border: 1px solid gray;
     padding: 10px;

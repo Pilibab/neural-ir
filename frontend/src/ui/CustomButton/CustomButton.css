@@ -1,0 +1,15 @@
+button.btn-primary {
+    width: 90%;
+    margin: 5px 0px;
+    background-color:rgb(31, 107, 230);
+    border: none;
+    color: aliceblue;
+    height: 1.5rem;
+    border-radius: 5px;
+
+}
+
+button.btn-primary:hover{
+    background-color:rgb(31, 194, 230);
+
+}

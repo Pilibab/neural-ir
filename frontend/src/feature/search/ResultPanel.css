@@ -1,0 +1,40 @@
+.results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.result-card {
+    display: flex;
+    gap: 1rem;
+    border: 1px solid #ddd;
+    padding: 1rem;
+}
+
+.result-cover {
+    width: 120px;
+    object-fit: cover;
+}
+
+.result-content {
+    flex: 1;
+}
+
+.result-title {
+    margin: 0;
+}
+
+.result-rating {
+    font-weight: bold;
+}
+
+
+.result-tags {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.result-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+}

@@ -46,14 +46,17 @@ function App() {
         <ResultsPanel currIdx={currIdx} results={results}/>
           {// TODO: MAKE IT SO THAT BUTTON IS NOT CLICKABLE FOR RESPECTIVE BOUND 
             }
-          <CustomButton
-              onClick={handlePrev} 
-              disabled={!canGoPrev}
-          >{"<"}</CustomButton>
-          <CustomButton
-              onClick={handleNext} 
-              disabled={!canGoNext}
-          >{">"}</CustomButton>
+          <div className="button-container">
+            <CustomButton
+                onClick={handlePrev} 
+                disabled={!canGoPrev}
+            >{"<"}</CustomButton>
+            <CustomButton
+                onClick={handleNext} 
+                disabled={!canGoNext}
+            >{">"}</CustomButton>            
+          </div>
+
       </ContainerPanel>
     </div>
   )

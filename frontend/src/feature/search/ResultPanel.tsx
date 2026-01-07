@@ -2,6 +2,7 @@ import type {ManhwaResult}  from "./types";
 import "./ResultPanel.css";
 import { useState } from "react";
 import DisplayInfo from "../../ui/DisplayInfo/DisplayInfo";
+import CustomButton from "../../ui/CustomButton/CustomButton";
 
 interface ResultsPanelProps {
     results: ManhwaResult[];
@@ -10,14 +11,16 @@ interface ResultsPanelProps {
 const ResultsPanel = ({ results }: ResultsPanelProps) => {
     const [currIdx, setCurrIdx] = useState(0)
 
-    const next = (jump = 1) => {
-        if (checkIdx(currIdx + jump, results)) setCurrIdx(currIdx + jump);
-        else setCurrIdx(currIdx)
+    // helper ensures idx stays i bound 
+    const canGoPrev = currIdx > 0;
+    const canGoNext = currIdx < results.length - 1;
+
+    const handleNext = () => {
+        if (canGoNext) setCurrIdx(prevIdx => prevIdx + 1);
     };
 
-    const prev = (jump = -1) => {
-        if (checkIdx(currIdx + jump, results)) setCurrIdx(currIdx + jump);
-        else setCurrIdx(currIdx)
+    const handlePrev = () => {
+        if (canGoPrev) setCurrIdx(prevIdx => prevIdx - 1);
     };
 
 
@@ -28,14 +31,19 @@ const ResultsPanel = ({ results }: ResultsPanelProps) => {
     return (
         <div className="results-panel">
             <DisplayInfo info={results[currIdx]}/>
+
+            {// TODO: MAKE IT SO THAT BUTTON IS NOT CLICKABLE FOR RESPECTIVE BOUND 
+            }
+            <CustomButton
+                onClick={handlePrev} 
+                disabled={!canGoPrev}
+            >{"<"}</CustomButton>
+            <CustomButton
+                onClick={handleNext} 
+                disabled={!canGoNext}
+            >{">"}</CustomButton>
         </div>
     );
 };
 
 export default ResultsPanel;
-
-
-const checkIdx = (nextIdx: number, arr: Array<unknown>) => {
-    if (nextIdx < 0 || nextIdx > arr.length) return false; 
-    else true
-}

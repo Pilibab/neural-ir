@@ -1,4 +1,4 @@
-import type { ManhwaResult } from "../../feature/search/types";
+import type { ManhwaResult } from "../../search/types";
 
 interface DisplayInfoProps{
     info: ManhwaResult;

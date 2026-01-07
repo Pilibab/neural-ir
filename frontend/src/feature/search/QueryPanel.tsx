@@ -1,6 +1,6 @@
 import CustomButton from "../../ui/CustomButton/CustomButton"
 import CustomTextArea from "../../ui/CustomTextArea/CustomTextArea"
-import SynopsisField from "../../ui/SynopsisField/SynopsisField"
+import SynopsisField from "../manhwa/SynopsisField/SynopsisField"
 import "./QueryPanel.css"
 
 const QueryPanel = () => {

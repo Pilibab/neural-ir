@@ -1,7 +1,7 @@
 import type {ManhwaResult}  from "./types";
 import "./ResultPanel.css";
 import { useState } from "react";
-import DisplayInfo from "../../ui/DisplayInfo/DisplayInfo";
+import DisplayInfo from "../manhwa/DisplayInfo/DisplayInfo";
 import CustomButton from "../../ui/CustomButton/CustomButton";
 
 interface ResultsPanelProps {

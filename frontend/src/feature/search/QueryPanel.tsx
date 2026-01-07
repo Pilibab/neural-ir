@@ -1,6 +1,5 @@
 import CustomButton from "../../ui/CustomButton/CustomButton"
 import CustomTextArea from "../../ui/CustomTextArea/CustomTextArea"
-import SynopsisField from "../manhwa/SynopsisField/SynopsisField"
 import "./QueryPanel.css"
 
 const QueryPanel = () => {
@@ -30,11 +29,7 @@ const QueryPanel = () => {
                 </CustomButton>
             </form>
 
-            <SynopsisField
-            >
-                some text
-                get synopsis from /manhwa/data
-            </SynopsisField>
+
         </>
     )
 }

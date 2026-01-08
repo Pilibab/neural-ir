@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import time
-from datetime import datetime
-import os
+# from datetime import datetime
+# import os
 
 
 BASE_URL = "https://myanimelist.net"

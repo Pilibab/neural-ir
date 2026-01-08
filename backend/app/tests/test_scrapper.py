@@ -1,4 +1,8 @@
 # Import your scraper function
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
 from scraper.mal_scraper import get_manhwa_list
 # from  import get_manhwa_list  # Replace with actual filename
     
@@ -119,34 +123,56 @@ def test_manhwa_scraper():
         "link": [str]
     }
     
-    print("=" * 80)
+    print("\n"+"=" * 80)
     print("MANHWA SCRAPER VALIDATION TEST")
     print("=" * 80)
     
 
     # Run the scraper
-    print("\n📥 Fetching data from scraper...")
+    print("\tFetching data from scraper...")
     
     batch_count = 0
     for batch in get_manhwa_list(test_phase=True, result_lazy_limit=1):
         batch_count += 1
-        print(f"\n🔍 Validating batch {batch_count}...")
+        print(f"\nValidating batch {batch_count}...")
         
         # Validate the batch
         validation_result = validate_manhwa_data(batch, expected_schema)
         
         # Print results
         if validation_result["valid"]:
-            print(f"✅ VALIDATION PASSED")
-            print(f"   Total items validated: {validation_result['total_items']}")
-            print(f"   All fields match expected schema")
+            print(f"\tVALIDATION PASSED")
+            print(f"\tTotal items validated: {validation_result['total_items']}")
+            print(f"\tAll fields match expected schema")
         else:
             print(f"❌ VALIDATION FAILED")
             print(f"   Total items: {validation_result['total_items']}")
             print(f"   Valid items: {len(validation_result['items_validated'])}")
             print(f"   Invalid items: {len(validation_result['errors'])}")
-            
-            # Show detailed errors
+        
+        # Always print types for debugging
+        rank, title, synopsis, cover_image_url, rating, chapters, published_date, tags, link = batch[0]
+        
+        def truncate(value, length=10):
+            s = str(value)
+            return s[:length] + "..." if len(s) > length else s
+        
+        # print(f"""
+        #         rank: {type(rank).__name__}, sample: {truncate(rank)}
+        #         title: {type(title).__name__}, sample: {truncate(title)}
+        #         synopsis: {type(synopsis).__name__}, sample: {truncate(synopsis)}
+        #         cover_image_url: {type(cover_image_url).__name__}, sample: {truncate(cover_image_url)}
+        #         rating: {type(rating).__name__}, sample: {truncate(rating)}
+        #         chapters: {type(chapters).__name__}, sample: {truncate(chapters)}
+        #         published_date: {type(published_date).__name__}, sample: {truncate(published_date)}
+        #         tags: {type(tags).__name__}, sample: {truncate(tags)}
+        #         link: {type(link).__name__}, sample: {truncate(link)}
+        # """)
+        
+
+        
+        # Show detailed errors
+        if not validation_result["valid"]:
             for error in validation_result['errors']:
                 print(f"\n   Item {error['index']}:")
                 if 'error' in error:
@@ -161,7 +187,7 @@ def test_manhwa_scraper():
         
         print("\n" + "=" * 80)
     
-    print(f"\n✨ Test completed. Processed {batch_count} batch(es)")
+    print(f"\nTest completed. Processed {batch_count} batch(es)")
 
 
 if __name__ == "__main__":

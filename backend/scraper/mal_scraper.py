@@ -10,7 +10,7 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 
-def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50, test_phase: bool = True):
+def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50, test_phase: bool = False):
     test_limit = 1
     test_itr = 0 
 
@@ -152,15 +152,6 @@ def scrape_detail(url: str):
     return title, synopsis_text, img_link, score, chapters, pub_date, tags,link
 
 
-def convert_to_int(val: str) -> float:
-    try: 
-        # if convertable make float
-        return float(val)
-
-    except ValueError:
-        # let score remain unchange that is str
-        return val
-
 # Assuming 'left_div' is the <div class="leftside"> from your HTML
 def extract_sidebar_info(left_div):
     # 1. Chapters
@@ -184,15 +175,49 @@ def extract_sidebar_info(left_div):
 
 
 def extract_tags(left_div):
-    # Find all <a> tags that are children of divs containing Genres or Themes
-    tags_list = []
+    """
+    Extract only the Genres (not Themes) from the page.
+    Returns a comma-separated string of genres.
+    """
+    # Find the div that contains "Genres:" text
+    genre_div = left_div.find("span", string="Genres:")
     
-    # Select all links inside divs that have the 'spaceit_pad' class
-    # but only if they are related to genres/themes
-    genre_links = left_div.find_all("span", itemprop="genre")
+    if not genre_div:
+        return ""
     
-    # We use a set to avoid duplicates
-    unique_tags = {tag.get_text().strip() for tag in genre_links}
+    # Get the parent div (the spaceit_pad div)
+    genre_container = genre_div.parent
     
-    return ", ".join(unique_tags)
+    # Find all spans with itemprop="genre" within this specific container
+    genre_spans = genre_container.find_all("span", itemprop="genre")
+    
+    # Extract text and use set to avoid duplicates
+    unique_genres = {span.get_text().strip() for span in genre_spans}
+    
+    return ", ".join(sorted(unique_genres))
+
+
+def extract_themes(left_div):
+    """
+    Extract only the Themes (not Genres) from the page.
+    Returns a comma-separated string of themes.
+    """
+    # Find the div that contains "Themes:" text
+    theme_div = left_div.find("span", string="Themes:")
+    
+    if not theme_div:
+        return ""
+    
+    # Get the parent div (the spaceit_pad div)
+    theme_container = theme_div.parent
+    
+    # Find all spans with itemprop="genre" within this specific container
+    theme_spans = theme_container.find_all("span", itemprop="genre")
+    
+    # Extract text and use set to avoid duplicates
+    unique_themes = {span.get_text().strip() for span in theme_spans}
+    
+    return ", ".join(sorted(unique_themes))
+
+
 

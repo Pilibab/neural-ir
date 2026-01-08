@@ -157,17 +157,17 @@ def test_manhwa_scraper():
             s = str(value)
             return s[:length] + "..." if len(s) > length else s
         
-        # print(f"""
-        #         rank: {type(rank).__name__}, sample: {truncate(rank)}
-        #         title: {type(title).__name__}, sample: {truncate(title)}
-        #         synopsis: {type(synopsis).__name__}, sample: {truncate(synopsis)}
-        #         cover_image_url: {type(cover_image_url).__name__}, sample: {truncate(cover_image_url)}
-        #         rating: {type(rating).__name__}, sample: {truncate(rating)}
-        #         chapters: {type(chapters).__name__}, sample: {truncate(chapters)}
-        #         published_date: {type(published_date).__name__}, sample: {truncate(published_date)}
-        #         tags: {type(tags).__name__}, sample: {truncate(tags)}
-        #         link: {type(link).__name__}, sample: {truncate(link)}
-        # """)
+        print(f"""
+                rank: {type(rank).__name__}, sample: {truncate(rank)}
+                title: {type(title).__name__}, sample: {truncate(title)}
+                synopsis: {type(synopsis).__name__}, sample: {truncate(synopsis)}
+                cover_image_url: {type(cover_image_url).__name__}, sample: {truncate(cover_image_url)}
+                rating: {type(rating).__name__}, sample: {truncate(rating)}
+                chapters: {type(chapters).__name__}, sample: {truncate(chapters)}
+                published_date: {type(published_date).__name__}, sample: {truncate(published_date)}
+                tags: {type(tags).__name__}, sample: {tags}
+                link: {type(link).__name__}, sample: {truncate(link)}
+        """)
         
 
         

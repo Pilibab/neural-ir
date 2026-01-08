@@ -10,12 +10,17 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 
-def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50):
+def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50, test_phase: bool = True):
+    test_limit = 1
+    test_itr = 0 
+
+
     result = []
     total_manhwa = 0
     page = 0
 
     while True:
+
         url = f"{BASE_URL}{route}limit={page}"
         response = requests.get(url, headers=HEADERS)
 
@@ -35,46 +40,66 @@ def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit
         # 50 entries i think 
         for entry in entries:
 
+            if test_itr >= test_limit and test_phase:
+                break 
+
+
+            # ranking differs in the entry table and detail tag
+            rank_tag= entry.select_one("td.rank")
+            rank = rank_tag.get_text(strip=True)
+
             # from <h3><a>{title}<a><h3>
             # we are getting the link from a which redirects to page with manhwa details 
-            detail_tag = entry.select_one("h3.manga_h3 a")
+            detail_tag = entry.select_one("h3.manga_h3 a").get('href')
 
             details = scrape_detail(detail_tag)
 
             if details:
-                pass
+                result.append((rank, *details))
+
+            if test_phase:
+                test_itr += 1
 
             # Longer delay to be respectful to the server
             time.sleep(2)
 
-        if len(result) <= result_lazy_limit:
-            yield result;
+            if len(result) >= result_lazy_limit:
+                # * tensai ka na (天才かな)?
+                yield result;
 
-            # does this clear it?
-            result = []
+                # does this clear it?
+                result = []
 
-def scrape_detail(url):
-    # !rank: int,
-    # !title: str,
-    # synopsis: str,
-    # !cover_image_url: str,
-    # rating: int,
-    # chapters: str | int,
-    # published_date: str,
-    # tags: str,
-    # link: str,
+                # Add this check after the for loop
+        if test_itr >= test_limit and test_phase:
+            if result:  # Yield any remaining results
+                yield result
+            break
 
+        page+=50
+
+
+
+def scrape_detail(url: str):
+    # !=============================================================
+    # !FETCH + PARSE
+    # !=============================================================
+    response = requests.get(url, headers=HEADERS)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.text, "html.parser")
     # ! =============================================================
     # ! TITLE 
     # ! =============================================================
 
     # Find the first span with itemprop="name"
     # e.g. <span itemprop="name">The Greatest Estate Developer</span>
-    title = url.find("span", attrs={"itemprop": "name"})
+    title_tag = soup.select_one('span[itemprop="name"]')
+    title = title_tag.get_text()
 
 
     # traverse the left div that contains the data to narrow search
-    left_div = url.select_one("div.leftside")
+    left_div = soup.select_one("div.leftside")
 
     # ! =============================================================
     # ! IMG COVER 
@@ -94,15 +119,22 @@ def scrape_detail(url):
         link_tag = left_div.find("div", style="text-align: center;").find("a")
         # TODO generate a fall back 
 
+    # ! =============================================================
+    # ! chapter, pub_date, link 
+    # ! =============================================================
+
+    chapters, pub_date, link = extract_sidebar_info(left_div)
+
+
+    # ! =============================================================
+    # ! TAGS
+    # ! =============================================================
+    tags = extract_tags(left_div)
+
 
     # <div class="rightside js-scrollfix-bottom-rel"><div style="width:728px; margin:0 auto"></div>
-    right_div = url.select_one("div.rightside")
+    right_div = soup.select_one("div.rightside")
 
-    # ! =============================================================
-    # ! RANK 
-    # ! =============================================================
-    rank = right_div.select_one('span.numbers.ranked strong')   # return #n where n is number so we strip "#"
-    rank = int(rank.replace('#', ''))                           # after removing convert to int 
 
     # ! =============================================================
     # ! SYNOPSIS
@@ -110,5 +142,57 @@ def scrape_detail(url):
     synopsis_tag = right_div.select_one('span[itemprop="description"]')
     synopsis_text = synopsis_tag.get_text(separator="\n", strip=True)
 
-    return rank, title, img_link
+    # ! =============================================================
+    # ! RATING
+    # ! =============================================================
+    # <div class="score-label score-9">9.03</div>
+    score_tag = right_div.select_one("div.score-label.score-9")
+    score = score_tag.get_text(strip=True)
+
+    return title, synopsis_text, img_link, score, chapters, pub_date, tags,link
+
+
+def convert_to_int(val: str) -> float:
+    try: 
+        # if convertable make float
+        return float(val)
+
+    except ValueError:
+        # let score remain unchange that is str
+        return val
+
+# Assuming 'left_div' is the <div class="leftside"> from your HTML
+def extract_sidebar_info(left_div):
+    # 1. Chapters
+    chapters_label = left_div.find("span", string="Chapters:")
+
+    if chapters_label:
+        # .next_sibling gets the text right after the </span>
+        chapters = chapters_label.next_sibling.strip()
+
+    # 2. Published Date
+    published_label = left_div.find("span", string="Published:")
+    if published_label:
+        pub_date = published_label.next_sibling.strip()
+
+    # 3. External Link (Official Site)
+    # This is in the 'external_links' div
+    link_tag = left_div.select_one(".external_links a.link")
+    link = link_tag['href'] if link_tag else "No link found"
+
+    return chapters, pub_date, link
+
+
+def extract_tags(left_div):
+    # Find all <a> tags that are children of divs containing Genres or Themes
+    tags_list = []
+    
+    # Select all links inside divs that have the 'spaceit_pad' class
+    # but only if they are related to genres/themes
+    genre_links = left_div.find_all("span", itemprop="genre")
+    
+    # We use a set to avoid duplicates
+    unique_tags = {tag.get_text().strip() for tag in genre_links}
+    
+    return ", ".join(unique_tags)
 

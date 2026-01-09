@@ -1,23 +1,34 @@
 # orchestration + validation of batch[idx]
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+# app/pipelines/ingest_pipeline.py
 
 from utils.normalize_manhwa_data import normalize_manhwa_data
+from app.models.manhwa import Manhwa
+from app.services.manhwa_service import manhwa_service
 
-def ingest(manhwa_data):
-    # Normalize the manhwa data from dict
-    normalized_data = normalize_manhwa_data(
-        rank=manhwa_data.get("rank"),
-        title=manhwa_data.get("title"),
-        synopsis=manhwa_data.get("synopsis"),
-        cover_image_url=manhwa_data.get("cover_image_url"),
-        rating=manhwa_data.get("rating"),
-        chapters=manhwa_data.get("chapters"),
-        published_date=manhwa_data.get("published_date"),
-        tags=manhwa_data.get("tags"),
-        link=manhwa_data.get("link")
-    )
-    
-    return normalized_data
+def ingest(raw_manhwa: dict):
+    try:
+        normalized = normalize_manhwa_data(
+            rank=raw_manhwa.get("rank"),
+            title=raw_manhwa.get("title"),
+            synopsis=raw_manhwa.get("synopsis"),
+            cover_image_url=raw_manhwa.get("cover_image_url"),
+            rating=raw_manhwa.get("rating"),
+            chapters=raw_manhwa.get("chapters"),
+            published_date=raw_manhwa.get("published_date"),
+            tags=raw_manhwa.get("tags"),
+            link=raw_manhwa.get("link"),
+        )
+
+        # schema enforcement 
+        manhwa = Manhwa(**normalized)
+
+        # persistence 
+        manhwa_service.upsert(manhwa)
+
+        return manhwa
+
+    except Exception as e:
+        # log and skip
+        return None
+
 

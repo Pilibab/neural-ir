@@ -1,4 +1,6 @@
 def normalize_manhwa_data(
+    source: str,
+    source_id: str | int,
     rank: int | str,
     title: str,
     synopsis: str,
@@ -9,6 +11,12 @@ def normalize_manhwa_data(
     tags: str | list,
     link: str,
 ):
+    # Validate id
+    try:
+        final_source_id = int(source_id)
+    except (ValueError, TypeError):
+        final_source_id = source_id
+    
     # Validate rank
     try:
         final_rank = int(rank)
@@ -41,6 +49,8 @@ def normalize_manhwa_data(
         return str(val) if val is not None else default
 
     return {
+        "source":source,
+        "source_id": final_source_id,
         "rank": final_rank,
         "title": validate_str(title, ""),
         "synopsis": validate_str(synopsis, ""),

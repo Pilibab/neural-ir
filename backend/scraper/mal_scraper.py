@@ -10,7 +10,7 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 
-def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50, test_phase: bool = False):
+def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50, test_phase: bool = False, source="MAL"):
     test_limit = 1
     test_itr = 0 
 
@@ -55,8 +55,10 @@ def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit
             details = scrape_detail(detail_tag)
 
             if details:
-                title, synopsis_text, img_link, score, chapters, pub_date, tags, link = details
+                manga_id, title, synopsis_text, img_link, score, chapters, pub_date, tags, link = details
                 result.append({
+                    "source": source,
+                    "source_id" : manga_id,
                     "rank": rank,
                     "title": title,
                     "synopsis": synopsis_text,
@@ -97,6 +99,18 @@ def scrape_detail(url: str):
     # !=============================================================
     response = requests.get(url, headers=HEADERS)
     response.raise_for_status()
+
+    
+    import re
+
+    # Search for digits following "/manga/"
+    match = re.search(r'/manga/(\+d)', url)
+
+    if match:
+        manga_id = match.group(1)
+    else:
+        manga_id = None
+
 
     soup = BeautifulSoup(response.text, "html.parser")
     # ! =============================================================
@@ -160,7 +174,7 @@ def scrape_detail(url: str):
     score_tag = right_div.select_one("div.score-label.score-9")
     score = score_tag.get_text(strip=True)
 
-    return title, synopsis_text, img_link, score, chapters, pub_date, tags,link
+    return manga_id, title, synopsis_text, img_link, score, chapters, pub_date, tags,link
 
 
 # Assuming 'left_div' is the <div class="leftside"> from your HTML

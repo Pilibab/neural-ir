@@ -3,6 +3,8 @@ from typing import List, Optional
 
 class Manhwa(BaseModel):
     # id: Optional[str]
+    source: str
+    source_id: str | int
     rank: int | str
     title: str
     synopsis: str

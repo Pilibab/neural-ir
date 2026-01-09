@@ -8,6 +8,8 @@ from app.services.manhwa_service import manhwa_service
 def ingest(raw_manhwa: dict):
     try:
         normalized = normalize_manhwa_data(
+            source=raw_manhwa.get("source"),
+            source_id=raw_manhwa.get("source_id"),
             rank=raw_manhwa.get("rank"),
             title=raw_manhwa.get("title"),
             synopsis=raw_manhwa.get("synopsis"),
@@ -25,10 +27,9 @@ def ingest(raw_manhwa: dict):
         # persistence 
         manhwa_service.upsert(manhwa)
 
-        return manhwa
 
     except Exception as e:
         # log and skip
-        return None
+        print(e)
 
 

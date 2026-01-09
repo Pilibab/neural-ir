@@ -40,6 +40,8 @@ def validate_manhwa_data(batch_data, expected_schema):
     
     # Expected field names
     field_names = [
+        "source",
+        "source_id",
         "rank",
         "title", 
         "synopsis",
@@ -114,6 +116,8 @@ def test_manhwa_scraper():
     """
     # Define expected schema
     expected_schema = {
+        "source": [str],
+        "source_id": [str, int],
         "rank": [int, str],
         "title": [str],
         "synopsis": [str],
@@ -121,7 +125,7 @@ def test_manhwa_scraper():
         "rating": [float, str],
         "chapters": [str, int],
         "published_date": [str],
-        "tags": [str],
+        "tags": [str, list],
         "link": [str]
     }
     
@@ -160,6 +164,8 @@ def test_manhwa_scraper():
             return s[:length] + "..." if len(s) > length else s
         
         print(f"""
+                source: {type(item['source']).__name__}, sample: {truncate(item['source'])}
+                source_id: {type(item['source_id']).__name__}, sample: {truncate(item['source_id'])}
                 rank: {type(item['rank']).__name__}, sample: {truncate(item['rank'])}
                 title: {type(item['title']).__name__}, sample: {truncate(item['title'])}
                 synopsis: {type(item['synopsis']).__name__}, sample: {truncate(item['synopsis'])}

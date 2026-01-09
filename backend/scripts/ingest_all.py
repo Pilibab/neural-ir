@@ -8,8 +8,8 @@ from scraper.mal_scraper import get_manhwa_list
 
 def run_ingest():
     # get_manhwa_list -> [{},{},..{}] where {} are manhwa data so each {} are individual manhwa
-    for raw_manhwa  in get_manhwa_list(): 
-        normalized_data = ingest(raw_manhwa )
+    for raw_manhwa  in get_manhwa_list():
+        ingest(raw_manhwa )
         
 
 if __name__ == "__main__": 

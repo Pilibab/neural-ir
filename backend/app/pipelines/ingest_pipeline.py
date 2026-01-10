@@ -3,7 +3,7 @@
 
 from utils.normalize_manhwa_data import normalize_manhwa_data
 from app.models.manhwa import Manhwa
-from app.services.manhwa_service import manhwa_service
+from app.services.manhwa_service import ManhwaService
 
 def ingest(raw_manhwa: dict):
     try:
@@ -20,16 +20,15 @@ def ingest(raw_manhwa: dict):
             tags=raw_manhwa.get("tags"),
             link=raw_manhwa.get("link"),
         )
-
         # schema enforcement 
         manhwa = Manhwa(**normalized)
 
         # persistence 
-        manhwa_service.upsert(manhwa)
+        ManhwaService.upsert(manhwa)
 
+        return manhwa
 
     except Exception as e:
-        # log and skip
         print(e)
 
 

@@ -12,14 +12,14 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 
-def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit: int = 50, test_phase: bool = False, source="MAL"):
+def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", test_phase: bool = False, source="MAL"):
     test_limit = 1
     test_itr = 0 
 
 
     result = []
     total_manhwa = 0
-    page = 150
+    page = 6750
 
     while True:
 
@@ -89,7 +89,7 @@ def get_manhwa_list(route: str = "/topmanga.php?type=manhwa&", result_lazy_limit
                 # Longer delay to be respectful to the server
                 time.sleep(2)
 
-                if len(result) >= result_lazy_limit:
+                if len(result) >= len(entries):
                     # * tensai ka na (天才かな)?
                     yield result;
 
@@ -188,20 +188,28 @@ def scrape_detail(url: str):
 
     return manga_id, title, synopsis_text, img_link, score, chapters, pub_date, tags,link
 
-def extract_synopsis(synopsis_tag):
+import re
 
+def extract_synopsis(synopsis_tag):
     if not synopsis_tag or not synopsis_tag.get_text(strip=True):
         return None
     
-    # Extract the text with formatting preserved
+    # Extract text with formatting preserved
     synopsis = synopsis_tag.get_text(separator="\n", strip=True)
     
-    # 1. Remove the specific MAL signature
-    target_str = "[Written by MAL Rewrite]"
-    synopsis = synopsis.replace(target_str, "")
+    # 1. Remove bracketed content: [text], (text), {text}
+    bracket_pattern = r'[\[\(\{][^\]\)\}]*[\]\)\}]'
+    synopsis = re.sub(bracket_pattern, "", synopsis)
     
-    # 2. Clean up trailing whitespace/newlines left behind after removal
-    synopsis = synopsis.strip()
+    # 2. Remove lines starting with Source, Written by, or Credit (case-insensitive)
+    # This matches the word, optional colon, and everything following it on that line
+    keyword_pattern = r'(?i)^\s*(source|written by|credit|author)\b.*$'
+    # We use flags=re.MULTILINE so ^ and $ apply to each line of the synopsis
+    synopsis = re.sub(keyword_pattern, "", synopsis, flags=re.MULTILINE)
+    
+    # 3. Final Clean up
+    # Remove excessive newlines (3 or more) and strip leading/trailing whitespace
+    synopsis = re.sub(r'\n\s*\n\s*\n', '\n\n', synopsis).strip()
     
     return synopsis if synopsis else None
 

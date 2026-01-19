@@ -1,13 +1,12 @@
 # app/services/search_service.py
-
-from app.db.mongo import manhwa_vector_collection
+from db.mongo import manhwa_vector_collection
 
 
 def search_manhwa(query_vector, source="MAL"):
     pipeline = [
         {
             "$vectorSearch": {
-                "index": "manhwa_vector_index", # Must match the script above
+                "index": "vector_index", 
                 "path": "vector",
                 "queryVector": query_vector,
                 "numCandidates": 100,

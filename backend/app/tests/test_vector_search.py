@@ -61,6 +61,8 @@ if __name__ == "__main__":
     i = 1
     for result in results:
 
-        print(i, result['title'])
+        print(i, result['title'],  result['score'])
         i += 1
     
+    print("Document shape:")
+    print(len(results[0]), type(results[0]))

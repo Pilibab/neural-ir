@@ -10,9 +10,39 @@ def search_manhwa(query_vector, source="MAL"):
                 "path": "vector",
                 "queryVector": query_vector,
                 "numCandidates": 100,
-                "limit": 10,
+                # 10 -> 20 to account for weight shift 
+                "limit": 20,    
                 "filter": {"source": source}
             }
+        }, 
+        {
+            # calculate weighted score 
+            "$addFields": {
+                "base_score": {
+                    # "$meta": Returns the metadata associated with a document
+                    "$meta": "vectorSearchScore"
+                },
+                "weight": {
+                    "$switch": {
+                        "branches": [
+                            { "case": { "$eq": ["$embedding_source", "synopsis"] }, "then": 1.0 },
+                            { "case": { "$eq": ["$embedding_source", "title + tags"] }, "then": 0.8 },
+                            { "case": { "$eq": ["$embedding_source", "title"] }, "then": 0.5 }
+                        ],
+                        "default": 0.1 # Fallback for unknown sources
+                    }
+                }
+            }
+        },
+        {
+            # final score = weight * base_score
+            "$addFields": {
+                "final_score": { "$multiply": ["$base_score", "$weight"] }
+            }
+        },
+        {
+            # Re-sort based on the new weighted score
+            "$sort": { "final_score": -1 }
         },
         {
             # defines exactly which fields should be sent back to your backend 

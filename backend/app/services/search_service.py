@@ -1,9 +1,11 @@
 # app/services/search_service.py
 from db.mongo import manhwa_vector_collection
+from config import settings
 
 
 def search_manhwa(query_vector, source="MAL"):
     pipeline = [
+        # vector search
         {
             "$vectorSearch": {
                 "index": "vector_index", 
@@ -16,12 +18,26 @@ def search_manhwa(query_vector, source="MAL"):
             }
         }, 
         {
+            "$lookup": {
+            "from": "manhwa_data",
+            "localField": "source_id",  # Field in your vector collection
+            "foreignField": "source_id",       # Field in your data collection
+            "as": "metadata"            # Name of the temporary array
+            }
+        }, 
+        {
+            # FLATTEN
+            "$unwind": {
+                "path": "$metadata",
+                "preserveNullAndEmptyArrays": True # Don't delete if no metadata found
+            }
+        },
+        {
             # calculate weighted score 
             "$addFields": {
-                "base_score": {
-                    # "$meta": Returns the metadata associated with a document
-                    "$meta": "vectorSearchScore"
-                },
+                "raw_vibe_score": { "$meta": "vectorSearchScore" },
+
+
                 "weight": {
                     "$switch": {
                         "branches": [
@@ -31,13 +47,29 @@ def search_manhwa(query_vector, source="MAL"):
                         ],
                         "default": 0.1 # Fallback for unknown sources
                     }
+                }, 
+                #calculate bias
+                "bias" : {
+                    "$let": {
+                        "vars": { "r": { "$ifNull": ["$metadata.rating", 0] } },
+                        "in": {
+                            "$cond": [
+                                { "$gte": ["$$r", 8.5] }, 0.15, # Masterpiece Bonus
+                                { "$cond": [{ "$gte": ["$$r", 7.0] }, 0.05, 0.0] } # Good Bonus
+                            ]
+                        }
+                    }
                 }
             }
         },
         {
             # final score = weight * base_score
             "$addFields": {
-                "final_score": { "$multiply": ["$base_score", "$weight"] }
+                "final_score": {
+                    "$add": [
+                        { "$multiply": ["$raw_vibe_score", "$weight"]}, 
+                        "$bias" ]
+                }
             }
         },
         {
@@ -52,8 +84,12 @@ def search_manhwa(query_vector, source="MAL"):
                 "title": 1,
                 "source": 1,
                 "source_id": 1,        # Added this
-                # "embedding_text": 1,   # trace source id in manhwa_data then find the synopsis instead
-                "score": { "$meta": "vectorSearchScore" }
+                "embedding_source": 1,
+
+                "actual_score": "$raw_vibe_score",
+                "final_score": "$final_score",
+                "debug_rating": "$metadata.rating",
+                "debug_bias": "$bias"
             }
         }
     ]

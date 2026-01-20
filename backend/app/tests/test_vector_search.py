@@ -59,10 +59,29 @@ if __name__ == "__main__":
     print("top 10 matches")
 
     i = 1
-    for result in results:
+    for i, result in enumerate(results, 1):
+        title = result.get('title', 'N/A')
+        # Truncate title if it's too long to prevent breaking the table layout
+        display_title = (title[:27] + '..') if len(title) > 29 else title
+        
+        actual = result.get('actual_score', "N/A")
+        final = result.get('final_score', "N/A")
 
-        print(i, result['title'],  result['score'])
-        i += 1
+        if actual and final:
+            delta = actual - final
+
+        debug_rating = result.get('debug_rating', 0.0)
+
+        try:
+            debug_rating = float(debug_rating)
+        except (TypeError, ValueError):
+            debug_rating = 0.0
+
+        source = result.get('embedding_source')
+        bias = result.get('debug_bias')
+
+
+        print(f"{i: >2}. {display_title: <30} | Act: {actual:.4f} | Fin: {final:.4f} | Δ: {delta: >+6.2f} | rating: {debug_rating: >+6.2f} | source: {source: <10} | bias: {bias}")
     
     print("Document shape:")
     print(len(results[0]), type(results[0]))

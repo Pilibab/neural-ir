@@ -11,3 +11,20 @@ export interface ManhwaResult {
     tags: string;
     link: string;
 }
+
+export interface VectorSearchMeta {
+    title: string;
+    source: string;
+    source_id: string;
+    embedding_source: string;
+    final_score: number;
+}
+
+// ==============================
+// type of each key-value
+// ==============================
+// Key: title                | Types: [str]
+// Key: source               | Types: [str]
+// Key: source_id            | Types: [int]
+// Key: embedding_source     | Types: [str]
+// Key: final_score          | Types: [float]

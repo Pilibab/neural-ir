@@ -5,7 +5,7 @@ from pydantic import ValidationError
 from schemas.search_schema import searchReqSchema
 from app.main import app
 from services.search_service import search_manhwa
-from db.repository import Repository
+from services.manhwa_service import ManhwaService
 from db.mongo import manhwa_data_collection
 
 
@@ -24,10 +24,10 @@ def search():
     # proceed with search service 
     results = search_manhwa(valid_data.synopis)
 
-    repo = Repository(manhwa_data_collection)
+    service = ManhwaService()
 
     # find all manhwa that has the id 
-    results = repo.find_all_that(results) 
+    results = service.find_all_that(results) 
 
     return jsonify({
         "status": "success",

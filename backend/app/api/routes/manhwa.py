@@ -1,10 +1,16 @@
+from flask import request, jsonify
+
+
+
 from app.main import app
+from services.manhwa_service import ManhwaService
 
 
 @app.route("/api/manhwa/<id>", methods=['GET'])
-def get_manhwa_details(id):
+def get_manhwa_details(source,source_id):
     # Direct lookup in MongoDB by ID
-    manhwa = ManhwaService.get_by_id(id)
+    manhwa = ManhwaService.get_by_source(source, source_id)
+    
     if not manhwa:
         return jsonify({"error": "Not found"}), 404
     return jsonify(manhwa), 200

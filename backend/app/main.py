@@ -1,4 +1,5 @@
 from flask import Flask
+from config import settings
 
 app = Flask(__name__)
 
@@ -9,4 +10,7 @@ def hello_world():
 if __name__ == '__main__':
     # Set host='0.0.0.0' to make the server externally available (useful for testing across networks)
     # The default port is 5000
-    app.run(debug=True)
+    app.run(
+        debug=True,
+        port=settings.port
+        )

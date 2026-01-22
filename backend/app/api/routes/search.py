@@ -10,7 +10,7 @@ from db.mongo import manhwa_data_collection
 
 
 
-@app.route("/api/search", method=['POST'])
+@app.route("/api/search", methods=['POST'])
 def search():
     data = request.get_json()
 

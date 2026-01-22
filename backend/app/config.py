@@ -4,17 +4,23 @@ from pydantic import Field
 
 load_dotenv()
 
+
 class Settings(BaseSettings):
-    # Connection Strings
+    # MongoDB
     mongo_uri: str = Field(alias="MONGODB_LINK")
     db_name: str = Field(default="manhwa_db", alias="DB_NAME")
-    
-    # Collection Names
-    vector_collection: str = "manhwa_vectors"
-    data_collection: str = "manhwa_data"
-    error_log_collection: str = "error_logs"
+
+    # Collections
+    vector_collection: str = Field(default="manhwa_vectors", alias="MANHWA_VECTOR_COLLECTION")
+    data_collection: str = Field(default="manhwa_data", alias="MANHWA_DATA_COLLECTION")
+    error_log_collection: str = Field(default="error_logs", alias="ERROR_LOGS_COLLECTION")
+
+    # Server
+    port: int = Field(default=5000, alias="PORT")
 
     class Config:
         populate_by_name = True
+        env_file = ".env"   # optional but explicit
+
 
 settings = Settings()

@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 from db.mongo import  manhwa_vector_collection
+from utils.format_search_result import format_search_results
 
 from services.search_service import search_manhwa
 from sentence_transformers import SentenceTransformer
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     """
     search_on = "MAL"
 
-    embedding = model.encode(exact).tolist()
+    embedding = model.encode(query).tolist()
     if embedding:
         print("embedded ")
 
@@ -85,3 +86,23 @@ if __name__ == "__main__":
     
     print("Document shape:")
     print(len(results[0]), type(results[0]))
+    print("=" * 30)
+    print("type of each key-value")
+    print("=" * 30)
+
+    formatted_result = format_search_results(results)
+
+    # Dictionary to store sets of types found for each key
+    type_map = {}
+
+    for res in formatted_result:
+        for key, value in res.items():
+            if key not in type_map:
+                type_map[key] = set()
+            # Get the name of the type and add it to the set
+            type_map[key].add(type(value).__name__)
+
+    # Print the analysis
+    for key, types in type_map.items():
+        types_str = ", ".join(list(types))
+        print(f"Key: {key:<20} | Types: [{types_str}]")

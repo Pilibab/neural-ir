@@ -1,10 +1,9 @@
-import type {ManhwaResult}  from "./types";
+import type {VectorSearchMeta}  from "./types";
 import "./ResultPanel.css";
-import DisplayInfo from "../manhwa/DisplayInfo/DisplayInfo";
 
 interface ResultsPanelProps {
     currIdx: number,
-    results: ManhwaResult[];
+    results: VectorSearchMeta[];
 }
 
 const ResultsPanel = ({ currIdx, results }: ResultsPanelProps) => {
@@ -14,7 +13,6 @@ const ResultsPanel = ({ currIdx, results }: ResultsPanelProps) => {
 
     return (
         <div className="results-panel">
-            <DisplayInfo info={results[currIdx]}/>
         </div>
     );
 };

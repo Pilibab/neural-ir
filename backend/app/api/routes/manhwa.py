@@ -7,7 +7,7 @@ from services.manhwa_service import ManhwaService
 
 
 @app.route("/api/manhwa/<source>/<source_id>", methods=['GET'])
-def get_manhwa_details(source,source_id):
+def get_manhwa_details(source: str,source_id: str):
     # Direct lookup in MongoDB by ID
     manhwa = ManhwaService.get_by_source(source, source_id)
 

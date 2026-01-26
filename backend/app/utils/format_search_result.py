@@ -1,4 +1,6 @@
-def format_search_results(results: list):
+from models.search_result import SearchResult
+
+def format_search_results(results: list) -> list[SearchResult]:
     """
     Takes the raw search results (with debug/bias info) and 
     returns only the essential fields for the user.

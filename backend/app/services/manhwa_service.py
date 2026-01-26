@@ -35,7 +35,7 @@ class ManhwaService:
             print(f"\tInserting new manhwa: {manhwa.title}")
             return self.insert(manhwa)
         
-    def find_all_that(self, ranked_source_ids: list):
+    def find_all_that(self, ranked_source_ids: Manhwa):
         # Get the documents from Mongo
         results = self.repository.find_by_source_ids(ranked_source_ids)
         

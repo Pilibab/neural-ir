@@ -2,7 +2,7 @@
 from flask import request, jsonify
 from pydantic import ValidationError
 
-from schemas.search_schema import searchReqSchema
+from models.search import searchReqSchema
 from app.main import app
 from services.search_service import search_manhwa
 from services.manhwa_service import ManhwaService

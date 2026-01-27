@@ -2,7 +2,8 @@
 {
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "strict": true,
+    "types": ["vite/client"], // <--- Add this line
   },
   "files": [],
   "references": [

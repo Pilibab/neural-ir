@@ -1,6 +1,7 @@
 import ResultContext from "../context/ResultContext"
 import {useState, type PropsWithChildren } from "react";
-import type { VectorSearchMeta, ManhwaResult } from "../feature/search/types";
+import type { VectorSearchMeta } from "../domain/manhwa/VectorSearchMeta";
+import type { ManhwaResult } from "../domain/manhwa/Manhwa";
 
 type ResultProviderProps = PropsWithChildren<{}>;
 

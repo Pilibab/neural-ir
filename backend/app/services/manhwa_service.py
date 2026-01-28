@@ -36,7 +36,7 @@ class ManhwaService:
             print(f"\tInserting new manhwa: {manhwa.title}")
             return self.insert(manhwa)
         
-    def find_all_that(self, ranked_source_ids: list[SearchResult]):
+    def find_all_that(self, ranked_source_ids: list[SearchResult]) -> list[Manhwa]:
         # extract id from ranked_sourc_id
         ids_only = [res["source_id"] if isinstance(res, dict) else res.source_id 
                 for res in ranked_source_ids] 

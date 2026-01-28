@@ -1,17 +1,21 @@
 import ResultContext from "../context/ResultContext"
 import {useState, type PropsWithChildren } from "react";
-import type { VectorSearchMeta } from "../feature/search/types";
+import type { VectorSearchMeta, ManhwaResult } from "../feature/search/types";
 
 type ResultProviderProps = PropsWithChildren<{}>;
 
 const ResultProvider = ({children} : ResultProviderProps) => {
-    const [results, setResults] = useState<VectorSearchMeta[]>([]);
+    const [resultsVectorSearch, setResultsVectorSearch] = useState<VectorSearchMeta[]>([]);
+    const [resultsManhwaData, setResultsManhwaData] = useState<ManhwaResult[]>([]);
 
-    const clearResults = () => setResults([]);
+    const clearResults = () => {
+        setResultsVectorSearch([])
+        setResultsManhwaData
+    };
 
     return (<ResultContext.Provider 
         value={{
-        results, setResults, clearResults
+        resultsVectorSearch, setResultsVectorSearch, resultsManhwaData, setResultsManhwaData, clearResults
         }}
     >
         {children}

@@ -1,9 +1,13 @@
 import { createContext } from "react";
-import type { VectorSearchMeta } from "../feature/search/types";
+import type { VectorSearchMeta } from "../domain/manhwa/VectorSearchMeta";
+import type { ManhwaResult } from "../domain/manhwa/Manhwa";
 
 export interface ResultContextValue {
-    results: VectorSearchMeta[];
-    setResults: React.Dispatch<React.SetStateAction<VectorSearchMeta[]>>;
+    resultsVectorSearch: VectorSearchMeta[];
+    setResultsVectorSearch: React.Dispatch<React.SetStateAction<VectorSearchMeta[]>>;
+
+    resultsManhwaData: ManhwaResult[];
+    setResultsManhwaData: React.Dispatch<React.SetStateAction<ManhwaResult[]>>
     clearResults: () => void;
 }
 

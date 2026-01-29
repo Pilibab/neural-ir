@@ -19,9 +19,11 @@ const DisplayInfoCard = ({idx}: DisplayInfoCardProps) => {
 
 
     return (
-        <div className="display-info-card">
-            <SimilarityScore score={score}></SimilarityScore>
-        </div>
+
+            <div className="display-info-card" >
+                <SimilarityScore score={score}></SimilarityScore>
+            </div>            
+
     )
 }
 

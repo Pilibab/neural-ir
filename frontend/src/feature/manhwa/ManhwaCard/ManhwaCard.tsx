@@ -29,16 +29,24 @@ const ManhwaCard = ({ idx }: ManhwaCardProps) => {
             </div>
         );
     }
-    console.log(item.cover_image_url);
+
+    const url = `/manhwa/${item.source}/${item.source_id}`;
     
+
     return (
-        <div className="manhwa-card">
-            <div className="image-container">
-                <img src={item.cover_image_url} alt={`${item.title}.png cover `} />
-                <DisplayInfoCard idx={idx} />
+        <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div className="manhwa-card">
+                <div className="image-container">
+                    <img src={item.cover_image_url} alt={`${item.title}.png cover `} />
+                    <DisplayInfoCard idx={idx} />
+                </div>
+                <p>{item.title}</p>
             </div>
-            <p>{item.title}</p>
-        </div>
+        </a>
     );
 };
 

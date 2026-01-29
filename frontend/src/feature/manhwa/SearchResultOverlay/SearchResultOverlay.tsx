@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import ResultContext from "../../../context/ResultContext";
 import SimilarityScore from "../../../ui/ScoreCircle/ScoreCircle";
-import "./DisplayInfoCard.css";
+import "./SearchResultOverlay.css";
 
 interface DisplayInfoCardProps {
     idx: number
@@ -19,11 +19,11 @@ const DisplayInfoCard = ({idx}: DisplayInfoCardProps) => {
 
 
     return (
-
             <div className="display-info-card" >
                 <SimilarityScore score={score}></SimilarityScore>
+                <span className="rank">#{idx + 1}</span>
+                <span className="source">{item.source}</span>
             </div>            
-
     )
 }
 

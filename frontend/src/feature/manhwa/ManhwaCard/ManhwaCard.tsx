@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import ResultContext from "../../../context/ResultContext";
-import DisplayInfoCard from "../DisplayInfo/DisplayInfoCard";
+import DisplayInfoCard from "../SearchResultOverlay/SearchResultOverlay";
 import "./ManhwaCard.css";
 
 interface ManhwaCardProps {

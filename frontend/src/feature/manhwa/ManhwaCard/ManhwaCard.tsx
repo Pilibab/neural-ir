@@ -10,16 +10,10 @@ interface ManhwaCardProps {
 const ManhwaCard = ({ idx }: ManhwaCardProps) => {
     const context = useContext(ResultContext);
 
-    if (!context) {
-        throw new Error("ManhwaCard must be used within a ResultProvider");
-    }
+    if (!context) throw new Error("ManhwaCard must be used within a ResultProvider");
 
     const { resultsVectorSearch } = context;
 
-    // console.log(resultsVectorSearch?.[idx]);
-    
-
-    // Optional: Add a safety check to avoid "cannot read property of undefined"
     const item = resultsVectorSearch?.[idx];
 
     if (!item) {
@@ -30,9 +24,8 @@ const ManhwaCard = ({ idx }: ManhwaCardProps) => {
         );
     }
 
-    const url = `/manhwa/${item.source}/${item.source_id}`;
+    const url = `/manhwa/${item.source}/${item.source_id}?score=${item.final_score}`;
     
-
     return (
         <a
             href={url}

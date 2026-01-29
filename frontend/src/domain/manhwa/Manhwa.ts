@@ -6,6 +6,6 @@ export interface ManhwaResult {
     rating: number;
     chapters: string | number;
     published_date: string;
-    tags: string;
+    tags: string[];
     link: string;
 }

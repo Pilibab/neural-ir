@@ -47,3 +47,7 @@
     line-height: 1.5;
     word-break: break-word;
 }
+
+a {
+    text-decoration: none;
+}

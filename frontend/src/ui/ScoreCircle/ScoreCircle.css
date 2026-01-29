@@ -1,0 +1,29 @@
+.score-circle-container {
+    position: relative;
+    display: inline-flex;
+}
+
+.score-circle-background {
+    color: #e0e0e0;
+}
+
+.score-circle-progress {
+    position: absolute;
+    left: 0;
+}
+
+.score-circle-text {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0e0e0;
+}
+
+.score-circle-text-typography {
+    font-weight: bold;
+}

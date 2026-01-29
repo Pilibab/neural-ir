@@ -1,12 +1,12 @@
 .input-group {
-    border: 1px solid #555;
+    border: 1px solid #ccc;
     width: 100%;
     border-radius: 4px;
-    background-color: #2a2a2a;
+    background-color: #fafafa;
 }
 
 .input-group:focus {
-    border: 1px solid #1976d2;
+    border: 1px solid #2196F3;
 }
 
 .input-container {
@@ -15,8 +15,8 @@
 
 textarea {
     resize: none;
-    background-color: #2a2a2a;
-    color: white;
+    background-color: #fafafa;
+    color: #333;
     border: none;
     padding: 10px;
     width: 100%;

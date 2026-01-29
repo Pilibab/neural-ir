@@ -1,14 +1,14 @@
 .Container {
     width: 100%;
-    max-width: 480px;
-    height: 100%;
-    border: 1px solid #333;
+    max-width: 380px;
+    height: 80%;
+    border: 1px solid #d0d0d0;
     margin: 0;
     padding: 10px;
-    background-color: #1a1a1a;
+    background-color: #ffffff;
     border-radius: 8px;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
 
     display: flex;
     flex-direction: column;

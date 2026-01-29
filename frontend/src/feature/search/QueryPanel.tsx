@@ -36,11 +36,11 @@ const QueryPanel = () => {
                 console.error("Search failed:", response.error);
             }
 
-            setResultsVectorSearch(result_manhwa)
+            setResultsVectorSearch(search_result)
             setResultsManhwaData(result_manhwa)
 
-            console.log(result_manhwa[0]);
-            console.log(search_result[0]);
+            // console.log(result_manhwa[0]);
+            // console.log(search_result[0]);
             
 
         } catch (err) {
@@ -57,11 +57,12 @@ const QueryPanel = () => {
                 <CustomTextArea
                     // label="true"
                     placeholder="Enter synopsis"
-                    rows={5}    // what is this 
+                    rows={20}    // what is this 
                     onChange={(e: any) => setText(e.target.value)}
                 />
 
                 <CustomButton
+                    variant="submit"
                     type="submit"
                 >
                     Search

@@ -44,7 +44,9 @@ function App() {
 
       </ContainerPanel>
       <ContainerPanel>
-        <ResultsPanel currIdx={currIdx} resultsVectorSearch={resultsVectorSearch}/>
+        <ResultsPanel currIdx={currIdx} resultsVectorSearch={resultsVectorSearch}>
+
+        </ResultsPanel>
           {// TODO: MAKE IT SO THAT BUTTON IS NOT CLICKABLE FOR RESPECTIVE BOUND 
             }
           <div className="button-container">

@@ -3,7 +3,7 @@ import "./CustomButton.css"
 
 // This interface inherits all standard button props (type, onClick, etc.)
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary';
+    variant?: string;
 }
 
 const CustomButton = ({ variant = 'primary', children, ...props }: ButtonProps) => {

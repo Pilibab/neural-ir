@@ -1,7 +1,7 @@
 button.btn-primary {
     flex: 1;
     margin: 5px 0px;
-    background-color: #1976d2;
+    background-color: #2196F3;
     border: none;
     color: white;
     height: 2rem;
@@ -11,10 +11,31 @@ button.btn-primary {
 }
 
 button.btn-primary:hover {
-    background-color: #1565c0;
+    background-color: #1976D2;
 }
 
 button.btn-primary:disabled {
-    background-color: #555;
+    background-color: #bdbdbd;
+    cursor: not-allowed;
+}
+
+button.btn-submit {
+    width: 100%;
+    margin: 5px 0px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    height: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button.btn-submit:hover {
+    background-color: #45a049;
+}
+
+button.btn-submit:disabled {
+    background-color: #bdbdbd;
     cursor: not-allowed;
 }

@@ -35,11 +35,11 @@ const SearchPage = () => {
         };
     return (
         <>
-            <ContainerPanel>
+            <ContainerPanel variant="primary">
                 <QueryPanel/>
 
             </ContainerPanel>
-            <ContainerPanel>
+            <ContainerPanel variant="primary">
                 <ResultsPanel currIdx={currIdx} resultsVectorSearch={resultsVectorSearch}>
 
                 </ResultsPanel>

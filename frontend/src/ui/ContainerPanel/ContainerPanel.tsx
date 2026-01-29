@@ -3,11 +3,12 @@ import React from "react";
 
 interface ComponentProps {
     children: React.ReactNode;
+    variant: "primary" | "secondary"
 }
 
-const ContainerPanel = ({children}: ComponentProps) => {
+const ContainerPanel = ({children, variant}: ComponentProps) => {
     return (
-        <div className="Container">
+        <div className={`Container size-variant-${variant}`}>
             {children}
         </div>
     )

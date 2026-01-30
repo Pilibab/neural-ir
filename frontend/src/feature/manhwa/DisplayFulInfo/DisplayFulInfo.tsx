@@ -18,23 +18,25 @@ const DisplayFullInfo = ({ manhwaDetails, similarityScore = 85 }: DisplayFulInfo
         <aside className="manhwa-aside">
             <div className="img-container">
             <img src={manhwaDetails.cover_image_url} alt={manhwaDetails.title} />
-            <div className="rank-badge">#{manhwaDetails.rank}</div>
+            <div className="rank-badge">
+                #{manhwaDetails.rank}
+            </div>
             </div>
             
             <div className="meta-info">
-            <div className="meta-item">
-                <span>Status:</span> {manhwaDetails.published_date}
-            </div>
-            <div className="meta-item">
-                <span>Chapters:</span> {manhwaDetails.chapters}
-            </div>
-            <div className="meta-item">
-                <span>Rating:</span> ⭐ {manhwaDetails.rating}
-            </div>
+                <div className="meta-item">
+                    <span className="meta-item-label">Status:</span> {manhwaDetails.published_date}
+                </div>
+                <div className="meta-item">
+                    <span className="meta-item-label">Chapters:</span> {manhwaDetails.chapters}
+                </div>
+                <div className="meta-item">
+                    <span className="meta-item-label">Rating:</span> ⭐ {manhwaDetails.rating}
+                </div>
             </div>
 
             <a href={manhwaDetails.link} target="_blank" rel="noreferrer" className="read-button">
-            View on Site
+                View on Site
             </a>
         </aside>
 

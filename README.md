@@ -12,7 +12,7 @@ Semantic search engine that retrieves anime title based on synopsis similarity r
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 ### System Flow
 
@@ -25,7 +25,7 @@ Semantic search engine that retrieves anime title based on synopsis similarity r
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Backend**
 - **Python (Flask)** – A lightweight WSGI micro-framework focused on rapid development and simplicity.
@@ -39,8 +39,9 @@ Semantic search engine that retrieves anime title based on synopsis similarity r
 - **Pydantic** – Strict data validation and settings management
 
 ---
-
-## 📂 Project Structure
+<pre>
+```text
+##  Project Structure
 backend/
 ├── app
 │   ├── api
@@ -191,4 +192,5 @@ frontend/
 │   
 ├── .env                                     # Environment variables (API base URL etc.)
 ├── vite.config.ts                           # Build & dev server configuration.
-
+```
+</pre>
